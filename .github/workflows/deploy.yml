@@ -1,13 +1,13 @@
 name: parcel CI/CD
 
 on:  
-  push:
+  push: 
     branches: [ main ]
   pull_request:
     branches: [ main ]
 
 permissions:
-  id-token: write
+  id-token: write 
   contents: write
   actions: write
   checks: write
