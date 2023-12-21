@@ -1,12 +1,12 @@
-name: parcel CI/CD
+name: parcel CI/CD # название процесса
 
-on:  
+on:  # отслеживание ветки main
   push: 
     branches: [ main ]
   pull_request:
     branches: [ main ]
 
-permissions:
+permissions: # правила для разрешений репозиторий,чтобы не было ошибок при deploy
   id-token: write 
   contents: write
   actions: write
@@ -21,33 +21,33 @@ permissions:
   security-events: write
   statuses: write
 
-jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
+jobs:  # запуск работы
+  build-and-deploy: # название работы
+    runs-on: ubuntu-latest 
 
-    strategy: 
-      matrix:
-        node-version: [18.x]
+    strategy: # позволяет создать переменные
+      matrix: 
+        node-version: [18.x] # стабильная версия js
 
-    steps:
-      - uses: actions/checkout@v3
+    steps: # шаги  
+      - uses: actions/checkout@v3 #проверки для работы git
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: npm
+      - name: Use Node.js ${{ matrix.node-version }} # запуск Node.js
+        uses: actions/setup-node@v3  # использование пакета Node.js
+        with: # правила для пакета setup-node 
+          node-version: ${{ matrix.node-version }} 
+          cache: npm # кэширование npm,чтобы пакеты были в кэше для быстроты работы
 
-      - name: Install Dependencies
-        run: |
-          npm install 
+      - name: Install Dependencies # установка npm
+        run: | 
+          npm install  
 
-      - name: Build
+      - name: Build # сборка проекта
         run: |
           npm run build
 
-      - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          branch: gh-pages # The branch the action should deploy to.
-          folder: dist # The folder the action should deploy.
+      - name: Deploy # выгрузка проекта в git и сайта в интернет
+        uses: JamesIves/github-pages-deploy-action@v4 # использование пакета
+        with: #правила, из папки dist добавляет данные в ветку gh-pages
+          branch: gh-pages 
+          folder: dist 
